@@ -263,7 +263,7 @@ def fmt_line(label, value, width=22):
 
 def report(ip, results, errors):
     line = "=" * 60
-    print(f"\n{line}\n {RED} TARGET IP : {ip}\n{line} {RESET}")
+    print(f"\n{line}\n {RED} TARGET IP : {ip}{RESET}\n{line}")
     # consensus
     c = merge(results)
     lat, lon = c["lat"], c["lon"]
@@ -351,7 +351,7 @@ def interactive():
         except Exception:
             print(f"[!] not an IP and could not resolve '{tgt}'")
             return
-    mmdb = input("Path to GeoLite2-City.mmdb (blank to skip): ").strip() or None
+    mmdb = input("Path to GeoLite2-City.mmdb (Enter To Skip): ").strip() or None
     process_ips([ip], mmdb)
 
 
