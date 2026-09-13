@@ -32,6 +32,10 @@ import sys
 import urllib.request
 from datetime import datetime, timezone
 
+RED = "\033[31m"
+GREEN = "\033[32m"
+RESET = "\033[0m"
+
 # ----------------------------------------------------------------------
 # generic JSON GET with timeout + TLS verification
 # ----------------------------------------------------------------------
@@ -259,11 +263,11 @@ def fmt_line(label, value, width=22):
 
 def report(ip, results, errors):
     line = "=" * 60
-    print(f"\n{line}\n  TARGET IP : {ip}\n{line}")
+    print(f"\n{line}\n {RED} TARGET IP : {ip}\n{line} {RESET}")
     # consensus
     c = merge(results)
     lat, lon = c["lat"], c["lon"]
-    print("  -- CONSENSUS (across providers) --")
+    print(f" {GREEN} -- CONSENSUS (across providers) --{RESET}")
     print(fmt_line("Coordinates", f"{lat}, {lon}" if lat is not None else None))
     if lat is not None and lon is not None:
         print(fmt_line("Maps link", f"https://maps.google.com/?q={lat},{lon}"))
@@ -272,7 +276,7 @@ def report(ip, results, errors):
     if c["agree_city"] and any(c["agree_city"]):
         print(fmt_line("Agreed location", ", ".join(x for x in c["agree_city"] if x)))
 
-    print(f"\n  -- PER-PROVIDER DETAILS --")
+    print(f"{GREEN}\n  -- PER-PROVIDER DETAILS --{RESET}")
     for name, r in results:
         print(f"  [{name}]")
         print(fmt_line("Country", f"{r.get('country')} ({r.get('country_code')})"))
@@ -292,7 +296,7 @@ def report(ip, results, errors):
             print(fmt_line("Extra", "; ".join(f"{k}={v}" for k, v in ex.items() if v)))
         print()
     if errors:
-        print("  -- PROVIDERS UNAVAILABLE --")
+        print(f"{GREEN}  -- PROVIDERS UNAVAILABLE --{RESET}")
         for name, err in errors:
             print(f"  {name}: {err[:90]}")
     print(line)
@@ -320,9 +324,20 @@ def process_ips(ips, mmdb=None, quiet=False):
 
 
 def interactive():
+    
+print(f"{RED}
+ ██████   ███    ███  ███    ██  ██            █████  ██████   ██   ██  ██
+██    ██  ████  ████  ████   ██  ██           ██   ██ ██   ██  ██   ██  ██
+██    ██  ██ ████ ██  ██ ██  ██  ██    ████   ███████ ██████   ███████  ██
+██    ██  ██  ██  ██  ██ ██  ██  ██           ██   ██ ██   ██  ██   ██  ██
+ ██████   ██      ██  ██   ████  ██           ██   ██ ██████   ██   ██  ██
+                                                ~ O M N I - A B H I
+  CREATED BY : https://github.com/ABHISHEK14677
+{RESET}")
+    print("=" * 60)
     print("IP Location / OSINT Recon".center(60))
     print("=" * 60)
-    tgt = input("IP address (or 'myip' / 'd' for a domain, blank=quit): ").strip()
+    tgt = input("IP ADDRESS :").strip()
     if not tgt:
         return
     ip = tgt
