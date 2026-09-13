@@ -333,7 +333,6 @@ def interactive():
                                             ~ O M N I - A B H I
    CREATED BY : https://github.com/ABHISHEK14677
 \033[0m""")
-     }
     print("=" * 60)
     print("IP Location / OSINT Recon".center(60))
     print("=" * 60)
